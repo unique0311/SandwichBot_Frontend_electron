@@ -69,7 +69,7 @@ function App() {
               key={index}
               content={component}
               time="2"
-              tx="0xd89d...1dac"
+              tx="0xF4165678e707125D1d581877417272a3100c251b"
               swapFrom="ETH"
               swapTo="PEPE"
               status="In Progress"

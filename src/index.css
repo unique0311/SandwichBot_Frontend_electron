@@ -453,9 +453,10 @@ body {
   outline: none;
 }
 
-.modalSave__button {
+.modal .modalSave__button {
   background-color: #fff;
   color: #16171B;
+  /* color: #fff; */
   font-size: 16px;
   border-radius: 6px;
   padding: 12px 24px;

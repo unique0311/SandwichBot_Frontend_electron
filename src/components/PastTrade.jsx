@@ -4,7 +4,7 @@ import ChartBody from "./Chart.jsx";
 const PastTrades = [
   <ChartBody
     time="2"
-    tx="0xd89d...1dac"
+    tx="0xcd81917ff5313d02d7da3d47a9afcd3f635c36e3"
     swapFrom="ETH"
     swapTo="PEPE"
     status="In Progress"
@@ -14,7 +14,7 @@ const PastTrades = [
   />,
   <ChartBody
     time="2"
-    tx="0xd89d...1dac"
+    tx="0xcd81917ff5313d02d7da3d47a9afcd3f635c36e3"
     swapFrom="ETH"
     swapTo="PEPE"
     status="Filled"
@@ -24,7 +24,7 @@ const PastTrades = [
   />,
   <ChartBody
     time="2"
-    tx="0xd89d...1dac"
+    tx="0xcd81917ff5313d02d7da3d47a9afcd3f635c36e3"
     swapFrom="ETH"
     swapTo="PEPE"
     status="Filled"

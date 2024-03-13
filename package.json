@@ -44,5 +44,24 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3"
-  }
+  },
+  "plugins": [
+    [
+      "@electron-forge/plugin-webpack",
+      {
+        "mainConfig": "./webpack.main.config.js",
+        "devContentSecurityPolicy": "default-src 'self' 'unsafe-eval' 'unsafe-inline' http://localhost:* ws://localhost:*;",
+        "renderer": {
+          "config": "./webpack.renderer.config.js",
+          "entryPoints": [
+            {
+              "html": "./src/index.html",
+              "js": "./src/renderer.js",
+              "name": "main_window"
+            }
+          ]
+        }
+      }
+    ]
+  ]
 }
