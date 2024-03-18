@@ -13,6 +13,7 @@ const Modal = ({ show, close }) => {
         priKey: pkAddressValue,
       });
       // alert("Data saved successfully!!!");
+      close();
     } catch (error) {
       console.error("Error saving data:", error);
     }

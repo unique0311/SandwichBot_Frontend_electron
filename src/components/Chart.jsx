@@ -14,6 +14,7 @@ const ChartBody = ({
   profit,
   change,
   index,
+  profitUSD,
 }) => {
   // const handleLinkClick = (url) => {
   //   shell.openExternal(url);
@@ -39,13 +40,15 @@ const ChartBody = ({
         </a> */}
       </div>
       <div className="chartBody__title">
-        {swapFrom} <span style={{ color: "#919398" }}> &nbsp;>&nbsp; </span>{" "}
+        {swapFrom} <span style={{ color: "#919398" }}> &nbsp;{">"}&nbsp; </span>{" "}
         {swapTo}{" "}
       </div>
       <div className="chartBody__title">{status}</div>
-      <div className="chartBody__titleProfit">{profit}</div>
+      <div className="chartBody__titleProfit">
+        +{profit} ETH (${profitUSD})
+      </div>
       <div className="chartBody__title">
-        <div className="titleChange__back">{change}</div>
+        <div className="titleChange__back">+{change}%</div>
       </div>
     </div>
   );

@@ -1,20 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import ChartBody from "./components/Chart.jsx";
 import ChartHeader from "./components/ChartHeader.jsx";
 import Header from "./components/Header.jsx";
 import Profit from "./components/Profit.jsx";
 // import ShowmoreModal from "./components/ShowmoreModal.jsx";
-import PastTrades from "./components/PastTrade.jsx";
+// import PastTrades from "./components/PastTrade.jsx";
 
 function App() {
   const [showMore, setShowMore] = useState(false);
+  const [liveTradeData, setLiveTradeData] = useState([]);
+  const [pastTradeData, setPastTradeData] = useState([]);
   // const Switch = () => setShowMore(!showMore);
   const [visibleCom, setVisibleCom] = useState(8);
 
   const showMoreComponents = () => {
     setVisibleCom((prevVisibleComponents) => prevVisibleComponents + 7);
   };
+
+  useEffect(() => {
+    const fetchLiveTrades = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/liveTrade");
+        setLiveTradeData(res.data);
+      } catch (err) {
+        console.error("Error fetching live trade data: ", err);
+      }
+    };
+
+    const fetchPastTrades = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/pastTrade");
+        setPastTradeData(res.data);
+      } catch (err) {
+        console.error("Error fetching past trade data: ", err);
+      }
+    };
+
+    fetchLiveTrades();
+    fetchPastTrades();
+
+    const interval = setInterval(() => {
+      fetchLiveTrades();
+      fetchPastTrades();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="container">
@@ -23,24 +56,21 @@ function App() {
       <div className="liveTrades__container">
         <p className="liveTrades__title">Live Trades •</p>
         <ChartHeader />
-        <ChartBody
-          time="1"
-          tx="0xd89d...1dac"
-          swapFrom="HEMULE"
-          swapTo="WETH"
-          status="In Progress"
-          profit="+0.2 ETH ($312)"
-          change="+58%"
-        />
-        <ChartBody
-          time="2"
-          tx="0xd89d...1dac"
-          swapFrom="ETH"
-          swapTo="PEPE"
-          status="In Progress"
-          profit="+0.2 ETH ($312)"
-          change="+50%"
-        />
+        <div className="liveTrades__body">
+          {liveTradeData.map((trade, index) => (
+            <ChartBody
+              key={index}
+              time={trade.txTime}
+              tx={trade.TxHash}
+              swapFrom={trade.swapFrom}
+              swapTo={trade.swapTo}
+              status={trade.Status}
+              profit={trade.profit}
+              change={trade.change}
+              profitUSD={trade.EthToUsd}
+            />
+          ))}
+        </div>
       </div>
       <div className="pastTrades__container">
         <div className="pastTrades__title">
@@ -48,7 +78,10 @@ function App() {
           <div className="pastTrades__scale">
             <div
               className="scale__container"
-              style={{ borderRadius: "4px 0 0 4px" }}
+              style={{
+                borderRadius: "4px 0 0 4px",
+                border: "1px solid #76DB8C",
+              }}
             >
               1D
             </div>
@@ -64,22 +97,22 @@ function App() {
         </div>
         <ChartHeader />
         <div className="trades__mainInfo">
-          {PastTrades.slice(0, visibleCom).map((component, index) => (
+          {pastTradeData.slice(0, visibleCom).map((trade, index) => (
             <ChartBody
               key={index}
-              content={component}
-              time="2"
-              tx="0xF4165678e707125D1d581877417272a3100c251b"
-              swapFrom="ETH"
-              swapTo="PEPE"
-              status="In Progress"
-              profit="+0.2 ETH ($312)"
-              change="+50%"
+              time={trade.txTime}
+              tx={trade.TxHash}
+              swapFrom={trade.swapFrom}
+              swapTo={trade.swapTo}
+              status={trade.Status}
+              profit={trade.profit}
+              change={trade.change}
+              profitUSD={trade.EthToUsd}
             />
           ))}
         </div>
         <div className="showmore__container">
-          {visibleCom <= PastTrades.length && (
+          {visibleCom <= pastTradeData.length && (
             <button className="showmore__button" onClick={showMoreComponents}>
               Show More
             </button>

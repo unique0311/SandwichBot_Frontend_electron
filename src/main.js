@@ -32,7 +32,7 @@ app.on("ready", () => {
       responseHeaders: {
         ...details.responseHeaders,
         "Content-Security-Policy": [
-          "default-src 'self' http://localhost:5000; script-src 'self' 'unsafe-eval';  style-src 'self' 'unsafe-inline'",
+          "default-src 'self' http://localhost:5000;  script-src 'self' 'unsafe-eval';  style-src 'self' 'unsafe-inline'",
         ],
       },
     });

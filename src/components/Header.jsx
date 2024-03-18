@@ -12,26 +12,40 @@ import ShortenedWord from "./ShotenedWord.jsx";
 const Header = () => {
   const [modal, setModal] = useState(false);
   const [start, setStart] = useState(false);
-  const [data, setData] = useState([]);
+  const [walletAddress, setWalletAddress] = useState([]);
+  const [balance, setBalance] = useState("");
+  const [usdBalance, setUsdBalance] = useState("");
+  const [wethBalance, setWethBalance] = useState("");
+  const [wethUsdBalance, setWethUsdBalance] = useState("");
+  // const [ethPrice, setEthPrice] =  useState("");
   const [lastRefreshedTime, setLastRefreshedTime] = useState(null);
   const Toggle = () => setModal(!modal);
 
-  const fetchData = async () => {
+  const fetchWalletAddress = async () => {
     try {
       const res = await fetch("http://localhost:5000/api/data/last");
-      const jsonData = await res.json();
-      console.log("jsonData", jsonData);
-      setData(jsonData);
+      const jsonWalletAdress = await res.json();
+      // console.log("jsonWalletAdress: ", jsonWalletAdress);
+      if (jsonWalletAdress && jsonWalletAdress.pubKey) {
+        setWalletAddress(jsonWalletAdress);
+        setBalance(jsonWalletAdress.EthBalance);
+        setUsdBalance(jsonWalletAdress.EthToUsdPrice);
+        // setWethBalance(jsonWalletAdress.WethBalance);
+        // setWethUsdBalance(jsonWalletAdress.WethToUsdPrice);
+      } else {
+        console.error("Wallet address not found in the database");
+      }
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    fetchWalletAddress();
+    // getEthPrice();
 
     const interval = setInterval(() => {
-      fetchData();
+      fetchWalletAddress();
     }, 5000);
 
     return () => clearInterval(interval);
@@ -79,11 +93,16 @@ const Header = () => {
   const formatRefreshedTime = (time) => {
     const diffInMs = new Date() - time;
     const diffInMin = Math.floor(diffInMs / (1000 * 60));
-
-    return `${diffInMin} mins ago`;
+    if (diffInMin === 0) {
+      return "Just now";
+    } else {
+      if (diffInMin === 1) {
+        return `${diffInMin} min ago`;
+      } else {
+        return `${diffInMin} mins ago`;
+      }
+    }
   };
-
-  const walletAdress = "0xF4165678e707125D1d581877417272a3100c251b";
 
   return (
     <div className="header_container">
@@ -96,19 +115,25 @@ const Header = () => {
             {/* <p className="current__wallet_title">Connect Wallet</p> */}
             <p className="current__wallet_title">Current Wallet</p>
             <div className="wallet__address">
-              <p>{data && <ShortenedWord word={data.pubKey} />}</p>
+              {walletAddress && (
+                <>
+                  <p>
+                    <ShortenedWord word={walletAddress.pubKey} />
+                  </p>
+                  <div className="wallet__copyButton">
+                    <a
+                      href={`https://etherscan.io/address/${walletAddress.pubKey}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img src={editImage} />
+                    </a>
+                  </div>
+                </>
+              )}
               {/* <p>
                 <ShortenedWord word={walletAdress} />
               </p> */}
-              <div className="wallet__copyButton">
-                <a
-                  href={`https://etherscan.io/address/${walletAdress}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src={editImage} />
-                </a>
-              </div>
             </div>
           </div>
         </div>
@@ -123,8 +148,10 @@ const Header = () => {
             <p>ETH Balance:</p>
           </div>
           <div className="ethBalace__value">
-            <p className="value__color">2.4 ETH</p>
-            <p className="dolarValue__color">($8.4k)</p>
+            <p className="value__color">{parseFloat(balance).toFixed(2)} ETH</p>
+            <p className="dolarValue__color">
+              (${parseFloat(usdBalance).toFixed(2)})
+            </p>
           </div>
         </div>
         <div className="ethBalance__container">
@@ -138,8 +165,12 @@ const Header = () => {
             <p>WETH Balance:</p>
           </div>
           <div className="ethBalace__value">
-            <p className="value__color">2.4 WETH</p>
-            <p className="dolarValue__color">($8.4k)</p>
+            <p className="value__color">
+              {parseFloat(wethBalance).toFixed(2)} WETH
+            </p>
+            <p className="dolarValue__color">
+              (${parseFloat(wethUsdBalance).toFixed(2)})
+            </p>
           </div>
         </div>
       </div>

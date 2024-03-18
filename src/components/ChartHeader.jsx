@@ -32,7 +32,7 @@ const ChartHeader = () => {
           style={{ paddingLeft: "5px", cursor: "pointer" }}
         />
       </div>
-      <div className="chartHeader__title">
+      <div className="chartHeader__titleProfile">
         Profit
         <img
           src={sortImage}
