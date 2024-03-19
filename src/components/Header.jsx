@@ -25,7 +25,6 @@ const Header = () => {
     try {
       const res = await fetch("http://localhost:5000/api/data/last");
       const jsonWalletAdress = await res.json();
-      // console.log("jsonWalletAdress: ", jsonWalletAdress);
       if (jsonWalletAdress && jsonWalletAdress.pubKey) {
         setWalletAddress(jsonWalletAdress);
         setBalance(jsonWalletAdress.EthBalance);
@@ -40,9 +39,24 @@ const Header = () => {
     }
   };
 
+  const handleStart = () => {
+    fetch("http://localhost:5000/start")
+      .then((res) => res.text())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+    setStart(true);
+  };
+
+  const handleStop = () => {
+    fetch("http://localhost:5000/stop")
+      .then((response) => response.text())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+    setStart(false);
+  };
+
   useEffect(() => {
     fetchWalletAddress();
-    // getEthPrice();
 
     const interval = setInterval(() => {
       fetchWalletAddress();
@@ -50,25 +64,6 @@ const Header = () => {
 
     return () => clearInterval(interval);
   }, []);
-
-  // Function to add new data
-  // const addNewData = async (newData) => {
-  //   try {
-  //     // Make API request to add new data
-  //     await fetch("http://localhost:5000/api/data/last", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(newData),
-  //     });
-
-  //     // Fetch updated data after adding new data
-  //     fetchData();
-  //   } catch (error) {
-  //     console.error("Error adding new data:", error);
-  //   }
-  // };
 
   const handlePageRefresh = () => {
     localStorage.setItem("lastResfreshTime", new Date().getTime());
@@ -187,22 +182,12 @@ const Header = () => {
           </p>
         </div>
         {start ? (
-          <div
-            className="trading__button_stop"
-            onClick={() => {
-              setStart(false);
-            }}
-          >
+          <div className="trading__button_stop" onClick={handleStop}>
             <div className="tadingButton__image_stop" />
             <p>Stop Trading</p>
           </div>
         ) : (
-          <div
-            className="trading__button"
-            onClick={() => {
-              setStart(true);
-            }}
-          >
+          <div className="trading__button" onClick={handleStart}>
             <div className="tadingButton__image">
               <img src={playImage} style={{ width: "16px", height: "16px" }} />
             </div>

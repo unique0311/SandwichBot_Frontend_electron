@@ -45,7 +45,8 @@ const ChartBody = ({
       </div>
       <div className="chartBody__title">{status}</div>
       <div className="chartBody__titleProfit">
-        +{profit} ETH (${profitUSD})
+        +{parseFloat(profit).toFixed(5)} ETH ($
+        {parseFloat(profitUSD).toFixed(2)})
       </div>
       <div className="chartBody__title">
         <div className="titleChange__back">+{change}%</div>
