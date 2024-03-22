@@ -8,7 +8,7 @@ const Modal = ({ show, close }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await Axios.post("http://localhost:5000/api/data", {
+      await Axios.post("http://localhost:3306/api/data", {
         pubKey: addressValue,
         priKey: pkAddressValue,
       });

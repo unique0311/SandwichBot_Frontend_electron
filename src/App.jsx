@@ -14,6 +14,11 @@ function App() {
   const [pastTradeData, setPastTradeData] = useState([]);
   // const Switch = () => setShowMore(!showMore);
   const [visibleCom, setVisibleCom] = useState(8);
+  const [selectedTag, setSelectedTag] = useState("1D");
+
+  const handleTagSelect = (tag) => {
+    setSelectedTag(tag);
+  };
 
   const showMoreComponents = () => {
     setVisibleCom((prevVisibleComponents) => prevVisibleComponents + 7);
@@ -22,7 +27,7 @@ function App() {
   useEffect(() => {
     const fetchLiveTrades = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/liveTrade");
+        const res = await axios.get("http://localhost:3306/api/liveTrade");
         setLiveTradeData(res.data);
       } catch (err) {
         console.error("Error fetching live trade data: ", err);
@@ -31,7 +36,7 @@ function App() {
 
     const fetchPastTrades = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/pastTrade");
+        const res = await axios.get("http://localhost:3306/api/pastTrade");
         setPastTradeData(res.data);
       } catch (err) {
         console.error("Error fetching past trade data: ", err);
@@ -76,6 +81,9 @@ function App() {
         <div className="pastTrades__title">
           <p>Past Trades</p>
           <div className="pastTrades__scale">
+            {/* {
+              selectedTag == "1D" ? {} : {}
+            } */}
             <div
               className="scale__container"
               style={{

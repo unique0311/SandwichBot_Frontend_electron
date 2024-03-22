@@ -23,14 +23,14 @@ const Header = () => {
 
   const fetchWalletAddress = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/data/last");
+      const res = await fetch("http://localhost:3306/api/data/last");
       const jsonWalletAdress = await res.json();
       if (jsonWalletAdress && jsonWalletAdress.pubKey) {
         setWalletAddress(jsonWalletAdress);
         setBalance(jsonWalletAdress.EthBalance);
         setUsdBalance(jsonWalletAdress.EthToUsdPrice);
-        // setWethBalance(jsonWalletAdress.WethBalance);
-        // setWethUsdBalance(jsonWalletAdress.WethToUsdPrice);
+        setWethBalance(jsonWalletAdress.WethBalance);
+        setWethUsdBalance(jsonWalletAdress.WethToUsdPrice);
       } else {
         console.error("Wallet address not found in the database");
       }
@@ -40,7 +40,7 @@ const Header = () => {
   };
 
   const handleStart = () => {
-    fetch("http://localhost:5000/start")
+    fetch("http://localhost:3306/start")
       .then((res) => res.text())
       .then((data) => console.log(data))
       .catch((error) => console.error(error));
@@ -48,7 +48,7 @@ const Header = () => {
   };
 
   const handleStop = () => {
-    fetch("http://localhost:5000/stop")
+    fetch("http://localhost:3306/stop")
       .then((response) => response.text())
       .then((data) => console.log(data))
       .catch((error) => console.error(error));
@@ -117,7 +117,7 @@ const Header = () => {
                   </p>
                   <div className="wallet__copyButton">
                     <a
-                      href={`https://etherscan.io/address/${walletAddress.pubKey}`}
+                      href={`https://sepolia.etherscan.io/address/${walletAddress.pubKey}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

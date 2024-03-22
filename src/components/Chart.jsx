@@ -26,7 +26,7 @@ const ChartBody = ({
       <div className="chartBody__title">
         <ShortenedWord word={tx} />
         <a
-          href={`https://etherscan.io/address/${tx}`}
+          href={`https://sepolia.etherscan.io/tx/${tx}`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -49,7 +49,9 @@ const ChartBody = ({
         {parseFloat(profitUSD).toFixed(2)})
       </div>
       <div className="chartBody__title">
-        <div className="titleChange__back">+{change}%</div>
+        <div className="titleChange__back">
+          +{parseFloat(change).toFixed(2)}%
+        </div>
       </div>
     </div>
   );
