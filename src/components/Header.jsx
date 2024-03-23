@@ -11,7 +11,10 @@ import ShortenedWord from "./ShotenedWord.jsx";
 
 const Header = () => {
   const [modal, setModal] = useState(false);
-  const [start, setStart] = useState(false);
+  const [start, setStart] = useState(() => {
+    const starts = localStorage.getItem("startStatus");
+    return starts ? JSON.parse(starts) : false;
+  });
   const [walletAddress, setWalletAddress] = useState([]);
   const [balance, setBalance] = useState("");
   const [usdBalance, setUsdBalance] = useState("");
@@ -45,6 +48,7 @@ const Header = () => {
       .then((data) => console.log(data))
       .catch((error) => console.error(error));
     setStart(true);
+    localStorage.setItem("startStatus", JSON.stringify(true));
   };
 
   const handleStop = () => {
@@ -53,6 +57,7 @@ const Header = () => {
       .then((data) => console.log(data))
       .catch((error) => console.error(error));
     setStart(false);
+    localStorage.setItem("startStatus", JSON.stringify(false));
   };
 
   useEffect(() => {
