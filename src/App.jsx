@@ -85,19 +85,38 @@ function App() {
               selectedTag == "1D" ? {} : {}
             } */}
             <div
-              className="scale__container"
+              className={`scale__container ${
+                selectedTag === "1D" ? "scale__active" : ""
+              }`}
               style={{
                 borderRadius: "4px 0 0 4px",
-                border: "1px solid #76DB8C",
               }}
+              onClick={() => handleTagSelect("1D")}
             >
               1D
             </div>
-            <div className="scale__container">7D</div>
-            <div className="scale__container">14D</div>
             <div
-              className="scale__container"
+              className={`scale__container ${
+                selectedTag === "7D" ? "scale__active" : ""
+              }`}
+              onClick={() => handleTagSelect("7D")}
+            >
+              7D
+            </div>
+            <div
+              className={`scale__container ${
+                selectedTag === "14D" ? "scale__active" : ""
+              }`}
+              onClick={() => handleTagSelect("14D")}
+            >
+              14D
+            </div>
+            <div
+              className={`scale__container ${
+                selectedTag === "30D" ? "scale__active" : ""
+              }`}
               style={{ borderRadius: "0 4px 4px 0" }}
+              onClick={() => handleTagSelect("30D")}
             >
               30D
             </div>

@@ -378,6 +378,10 @@ body {
   cursor: pointer;
 }
 
+.scale__active {
+  border: 1px solid #76DB8C;
+}
+
 .showmore__container {
   display: flex;
   align-items: center;
