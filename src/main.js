@@ -1,10 +1,16 @@
-const { app, BrowserWindow, session } = require("electron");
+const { app, BrowserWindow, session, ipcMain } = require("electron");
 const path = require("path");
+const config = require('dotenv');
+config.config();
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
   app.quit();
 }
+
+ipcMain.on("invokeEnv", (e) => {
+  e.sender.send('envReply', config);
+});
 
 const createWindow = () => {
   // Create the browser window.
@@ -12,6 +18,8 @@ const createWindow = () => {
     width: 1440,
     height: 1160,
     webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
@@ -32,7 +40,7 @@ app.on("ready", () => {
       responseHeaders: {
         ...details.responseHeaders,
         "Content-Security-Policy": [
-          "default-src 'self' http://localhost:3306;  script-src 'self' 'unsafe-eval';  style-src 'self' 'unsafe-inline'",
+          `default-src 'self' ${process.env.REACT_APP_BACKEND_URL}:3306;  script-src 'self' 'unsafe-eval';  style-src 'self' 'unsafe-inline'`,
         ],
       },
     });

@@ -26,7 +26,7 @@ const Header = () => {
 
   const fetchWalletAddress = async () => {
     try {
-      const res = await fetch("http://localhost:3306/api/data/last");
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}:3306/api/data/last`);
       const jsonWalletAdress = await res.json();
       if (jsonWalletAdress && jsonWalletAdress.pubKey) {
         setWalletAddress(jsonWalletAdress);
@@ -43,7 +43,7 @@ const Header = () => {
   };
 
   const handleStart = () => {
-    fetch("http://localhost:3306/start")
+    fetch(`${process.env.REACT_APP_BACKEND_URL}:3306/start`)
       .then((res) => res.text())
       .then((data) => console.log(data))
       .catch((error) => console.error(error));
@@ -52,7 +52,7 @@ const Header = () => {
   };
 
   const handleStop = () => {
-    fetch("http://localhost:3306/stop")
+    fetch(`${process.env.REACT_APP_BACKEND_URL}:3306/stop`)
       .then((response) => response.text())
       .then((data) => console.log(data))
       .catch((error) => console.error(error));

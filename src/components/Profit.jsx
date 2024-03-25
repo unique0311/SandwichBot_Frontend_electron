@@ -5,7 +5,7 @@ const Profit = () => {
 
   const fetchProfit = async () => {
     try {
-      const res = await fetch("http://localhost:3306/api/profit");
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}:3306/api/profit`);
       const profit = await res.json();
       if (profit) {
         setProfit(profit);

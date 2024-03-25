@@ -8,7 +8,7 @@ const Modal = ({ show, close }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await Axios.post("http://localhost:3306/api/data", {
+      await Axios.post(`${process.env.REACT_APP_BACKEND_URL}:3306/api/data`, {
         pubKey: addressValue,
         priKey: pkAddressValue,
       });
@@ -52,7 +52,7 @@ const Modal = ({ show, close }) => {
             <button
               className="modalSave__button"
               type="submit"
-              // onClick={() => close()}
+            // onClick={() => close()}
             >
               Import
             </button>
