@@ -22,7 +22,7 @@ const ChartBody = ({
 
   return (
     <div className="liveTrades__chartBody" key={index}>
-      <div className="chartBody__title">{time}s</div>
+      <div className="chartBody__title">{time}</div>
       <div className="chartBody__title">
         <ShortenedWord word={tx} />
         <a

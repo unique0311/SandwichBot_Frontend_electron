@@ -7,8 +7,8 @@
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "make": "copy .env out\\.env && electron-forge make",
+    "publish": "copy .env out\\.env && electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
   "devDependencies": {
